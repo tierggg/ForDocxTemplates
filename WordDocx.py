@@ -21,6 +21,9 @@ for row in range(sheetR.nrows):
     if sheetR.cell_type(row, 0) not in (xlrd.XL_CELL_EMPTY, xlrd.XL_CELL_BLANK):  # Проверка пуста ли ячейка
         k = str(sheetR.cell_value(row, 0))
         regNumber.add(k)
+    else:
+        k = 'нет рег. номера'
+        regNumber.add(k)
 
 dictRegNum = {}
 for reg in regNumber:
@@ -40,8 +43,12 @@ for reg in regNumber:
             dictRegNum[reg] = dictRegNum.get(reg) + '\n' + pcFIO
             cnt += 1
 """  (NBSB) это неразрыный пробел, чтобы Word не делал перенос по словам, вставляется по Alt+255"""
+
 filetempl = askopenfilename()
+count = 1
 for key in dictRegNum:
     out = key[:-2] + '.docx'
-    print(key[:-2], dictRegNum.get(key))
+#    print(key[:-2], dictRegNum.get(key))
     template_paste(filetempl, out, key[:-2], dictRegNum.get(key))
+    print('сделано', count, 'из', len(dictRegNum))
+    count += 1
